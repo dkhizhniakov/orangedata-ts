@@ -1,55 +1,88 @@
 {
-  "name": "node-orangedata",
-  "version": "1.5.0",
-  "description": "Node.js integration for OrangeData service",
+  "name": "orangedata-ts",
+  "version": "2.0.0",
+  "description": "Zero-dependency TypeScript SDK for OrangeData fiscalization API v2 (54-FZ, FFD 1.05 & 1.2, mTLS, RSA-SHA256)",
+  "keywords": [
+    "orangedata",
+    "node-orangedata",
+    "54-fz",
+    "54fz",
+    "ffd-1.2",
+    "kkt",
+    "ofd",
+    "fiscal",
+    "receipt",
+    "online-kassa",
+    "chestny-znak",
+    "typescript"
+  ],
   "license": "MIT",
-  "main": "lib",
-  "engines": {
-    "node": ">=8"
+  "author": {
+    "name": "Dmitrii Khizhniakov",
+    "email": "khizhniakov@gmail.com",
+    "url": "https://github.com/dkhizhniakov"
   },
+  "contributors": [
+    {
+      "name": "Sergey Kunin",
+      "email": "sk@stapps.ru",
+      "url": "https://github.com/orangedata-official"
+    }
+  ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:orangedata-official/node-orangedata.git"
+    "url": "git+https://github.com/dkhizhniakov/orangedata-ts.git"
   },
+  "homepage": "https://github.com/dkhizhniakov/orangedata-ts#readme",
   "bugs": {
-    "url": "https://github.com/orangedata-official/node-orangedata/issues"
+    "url": "https://github.com/dkhizhniakov/orangedata-ts/issues"
   },
-  "author": {
-    "name": "Sergey Kunin",
-    "email": "sk@stapps.ru",
-    "url": "https://github.com/orangedata-official"
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
-    "config",
-    "examples",
-    "lib"
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "test": "node examples/index",
-    "postversion": "git push && git push --tags",
-    "lint": "eslint --ignore-path .gitignore ."
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "lint-staged": {
-    "*.js": "eslint --ignore-path .gitignore --color"
-  },
-  "dependencies": {
-    "request": "^2.88.0",
-    "request-promise-native": "^1.0.8",
-    "validator": "^13.6.0"
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run lint && npm run typecheck && npm run test:coverage && npm run build"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.2.0",
-    "@commitlint/config-conventional": "^8.2.0",
-    "eslint": "^6.6.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2",
-    "husky": "^3.0.9",
-    "lint-staged": "^9.4.2"
+    "@biomejs/biome": "^2.6.6",
+    "@types/node": "^22.15.0",
+    "@vitest/coverage-v8": "^5.1.0",
+    "tsup": "^9.0.0",
+    "typescript": "^5.8.3",
+    "vitest": "^5.1.0"
   }
 }
