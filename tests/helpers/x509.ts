@@ -42,6 +42,9 @@ function oid(dotNotation: string): Buffer {
 
 function int(value: Buffer | number): Buffer {
   let buf = typeof value === 'number' ? Buffer.from([value]) : value;
+  while (buf.length > 1 && buf[0] === 0x00) {
+    buf = buf.subarray(1);
+  }
   if ((buf[0] ?? 0) & 0x80) {
     buf = Buffer.concat([Buffer.from([0x00]), buf]);
   }

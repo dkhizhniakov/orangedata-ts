@@ -90,7 +90,9 @@ describe('mTLS HttpClient & OrangeData Integration Suite', () => {
   });
 
   afterAll(async () => {
-    await new Promise<void>((resolve) => server.close(() => resolve()));
+    if (server?.listening) {
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+    }
   });
 
   function createClient(overrides: Partial<ConstructorParameters<typeof OrangeData>[0]> = {}) {
